@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090717" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="4dt Anime" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="https://api.iconify.design/twemoji/sparkles.svg" />
+  <title>4dt_shakes Anime Hub — 100% Free Official Anime Directory</title>
+  <style>
+    :root {
+      --bg-dark: #090717;
+      --bg-card: #13102b;
+      --bg-card-hover: #1b173d;
+      --accent-pink: #ff2a85;
+      --accent-cyan: #00f0ff;
+      --text-main: #f4f4fb;
+      --text-muted: #9b97b8;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(255, 42, 133, 0.12), transparent 35%),
+        radial-gradient(circle at 85% 25%, rgba(0, 240, 255, 0.12), transparent 35%);
+    }
+
+    header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: rgba(9, 7, 23, 0.85);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: linear-gradient(90deg, var(--accent-pink), var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge-free {
+      background: rgba(0, 240, 255, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(0, 240, 255, 0.35);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 3.5rem 1.5rem 2rem;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 0.8rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto 1.75rem;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.9rem 1.25rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.2);
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .filter-btn {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(90deg, var(--accent-pink), #b829ff);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 15px rgba(255, 42, 133, 0.35);
+    }
+
+    main {
+      max-width: 1150px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1rem 1.5rem 4rem;
+      flex: 1;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.22s, background 0.22s, border-color 0.22s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      background: var(--bg-card-hover);
+      border-color: rgba(0, 240, 255, 0.35);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      color: #fff;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      white-space: nowrap;
+      background: rgba(255, 42, 133, 0.15);
+      color: var(--accent-pink);
+      border: 1px solid rgba(255, 42, 133, 0.3);
+    }
+
+    .tag.cyan {
+      background: rgba(0, 240, 255, 0.12);
+      color: var(--accent-cyan);
+      border-color: rgba(0, 240, 255, 0.3);
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      margin-bottom: 1.35rem;
+    }
+
+    .visit-btn {
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--bg-dark);
+      background: var(--accent-cyan);
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .visit-btn:hover {
+      opacity: 0.9;
+      transform: scale(1.01);
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 3rem 1rem;
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.75rem 1rem;
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">4dt_shakes Anime Hub</div>
+    <span class="badge-free">100% Free • No Subscription Needed</span>
+  </header>
+
+  <section class="hero">
+    <h1>Explore Official Free Anime</h1>
+    <p>Your central directory for legal, zero-subscription anime streaming channels, free simulcast manga readers, and community tracking databases.</p>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search platforms (e.g., Tubi, Muse Asia, Manga, Tracking)..." />
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All Platforms</button>
+      <button class="filter-btn" data-filter="streaming">Free Streaming</button>
+      <button class="filter-btn" data-filter="youtube">Official YouTube</button>
+      <button class="filter-btn" data-filter="manga">Free Manga</button>
+      <button class="filter-btn" data-filter="database">Databases</button>
+    </div>
+  </section>
+
+  <main>
+    <div class="grid" id="cardsGrid"></div>
+    <div class="empty-state" id="emptyState">No platforms matched your search. Try another keyword!</div>
+  </main>
+
+  <footer>
+    &copy; 2026 4dt_shakes Anime Hub • Linking exclusively to official, free-to-watch anime & manga sources.
+  </footer>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+
+    const platforms = [
+      {
+        name: "Tubi Anime",
+        category: "streaming",
+        badge: "Free w/ Ads",
+        badgeClass: "",
+        desc: "Thousands of licensed subbed and dubbed anime episodes available completely free with no account or credit card required.",
+        url: "https://tubitv.com/category/anime"
+      },
+      {
+        name: "Pluto TV Anime",
+        category: "streaming",
+        badge: "Free w/ Ads",
+        badgeClass: "",
+        desc: "24/7 live dedicated anime channels plus an on-demand library featuring classic and modern series.",
+        url: "https://pluto.tv"
+      },
+      {
+        name: "RetroCrush",
+        category: "streaming",
+        badge: "Free w/ Ads",
+        badgeClass: "",
+        desc: "Dedicated streaming service celebrating classic 70s, 80s, and 90s anime films and series with a huge free catalog.",
+        url: "https://www.retrocrush.tv"
+      },
+      {
+        name: "Crunchyroll (Free Tier)",
+        category: "streaming",
+        badge: "Free w/ Ads",
+        badgeClass: "",
+        desc: "Watch hundreds of popular catalog anime titles legally on Crunchyroll's ad-supported tier without paying.",
+        url: "https://www.crunchyroll.com"
+      },
+      {
+        name: "Muse Asia",
+        category: "youtube",
+        badge: "100% Free",
+        badgeClass: "cyan",
+        desc: "Official YouTube channel streaming licensed seasonal simulcasts and full anime series in high definition.",
+        url: "https://www.youtube.com/@MuseAsia"
+      },
+      {
+        name: "Ani-One Asia",
+        category: "youtube",
+        badge: "100% Free",
+        badgeClass: "cyan",
+        desc: "Official YouTube distributor offering free playlists of hit anime series with multi-language subtitles.",
+        url: "https://www.youtube.com/@AniOneAsia"
+      },
+      {
+        name: "MANGA Plus by SHUEISHA",
+        category: "manga",
+        badge: "100% Free",
+        badgeClass: "cyan",
+        desc: "Read the latest chapters of flagship Shonen Jump series simultaneously with Japan for free.",
+        url: "https://mangaplus.shueisha.co.jp"
+      },
+      {
+        name: "VIZ Media (Free Chapters)",
+        category: "manga",
+        badge: "100% Free",
+        badgeClass: "cyan",
+        desc: "Official English publisher offering the newest weekly chapters of hit manga series free to read.",
+        url: "https://www.viz.com/read"
+      },
+      {
+        name: "MyAnimeList",
+        category: "database",
+        badge: "100% Free",
+        badgeClass: "cyan",
+        desc: "Track your watched episodes, score series, read reviews, and discover seasonal anime charts.",
+        url: "https://myanimelist.net"
+      },
+      {
+        name: "AniList",
+        category: "database",
+        badge: "100% Free",
+        badgeClass: "cyan",
+        desc: "Modern anime and manga tracking platform with detailed stats, custom lists, and community recommendations.",
+        url: "https://anilist.co"
+      }
+    ];
+
+    const grid = document.getElementById('cardsGrid');
+    const searchInput = document.getElementById('searchInput');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const emptyState = document.getElementById('emptyState');
+
+    let currentFilter = 'all';
+
+    function renderCards() {
+      const query = searchInput.value.toLowerCase().trim();
+      grid.innerHTML = '';
+
+      const filtered = platforms.filter(item => {
+        const matchesCategory = currentFilter === 'all' || item.category === currentFilter;
+        const matchesQuery =
+          item.name.toLowerCase().includes(query) ||
+          item.desc.toLowerCase().includes(query) ||
+          item.category.toLowerCase().includes(query);
+        return matchesCategory && matchesQuery;
+      });
+
+      emptyState.style.display = filtered.length === 0 ? 'block' : 'none';
+
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div>
+            <div class="card-top">
+              <h3>${item.name}</h3>
+              <span class="tag ${item.badgeClass}">${item.badge}</span>
+            </div>
+            <p>${item.desc}</p>
+          </div>
+          <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="visit-btn">Visit Site ↗</a>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderCards();
+      });
+    });
+
+    searchInput.addEventListener('input', renderCards);
+    renderCards();
+  </script>
+</body>
+</html>
